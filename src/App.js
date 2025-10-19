@@ -30,16 +30,17 @@ function CompaniesProvider({ children }) {
   const itemsPerPage = 10;
 
   useEffect(() => {
-    fetch("http://localhost:5000/companies")
+    fetch(`${process.env.PUBLIC_URL}/db.json)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch data");
         return res.json();
       })
       .then((data) => {
-        data.sort((a, b) => a.id - b.id); // keep ID order
-        setCompanies(data);
-        setFiltered(data);
-        setLoading(false);
+  const companiesArray = data.companies; // <-- access the array
+  companiesArray.sort((a, b) => a.id - b.id);
+  setCompanies(companiesArray);
+  setFiltered(companiesArray);
+  setLoading(false);
       })
       .catch((err) => {
         setError(err.message);
